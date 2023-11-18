@@ -1,0 +1,16 @@
+@if ($errors->any())
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible" role="alert">
+        {{ session('success') }}
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
