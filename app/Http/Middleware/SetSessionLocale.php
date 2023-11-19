@@ -22,6 +22,7 @@ class SetSessionLocale
         // If there is no locale in the session, use the default locale from configuration
         if (!$locale) {
             $locale = config('app.locale');
+            session(['locale' => $locale]);
         }
 
         // Set the locale for the application
