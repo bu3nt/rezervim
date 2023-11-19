@@ -85,19 +85,21 @@
 
     @media (max-width: 480px) {
         .caption {
-            font-size: 16px;
-            padding: 12px 0;
-            bottom: 5px;
+            font-size: 10px;
+            padding: 2px 0;
+            bottom: -5px;
         }
 
         .caption h3 {
-            font-size: 20px;
+            font-size: 18px;
         }
-
+        .caption p {
+            display:none;
+        }
         .prev, .next {
             font-size: 14px;
             padding: 10px;
-            top: 20%;
+            top: 40%;
         }
     }   
 </style>
