@@ -97,17 +97,15 @@
               <li class="language-nav">
                 <div class="translate_wrapper">
                   <div class="current_lang">
+                    @if(session('locale') == 'sq')
                     <div class="lang"><i class="flag-icon flag-icon-al"></i><span class="lang-txt">AL</span></div>
+                    @elseif(session('locale') == 'en')
+                    <div class="lang"><i class="flag-icon flag-icon-us"></i><span class="lang-txt">US</span></div>
+                    @endif
                   </div>
                   <div class="more_lang">
-                    <div class="lang selected" data-value="al"><i class="flag-icon flag-icon-al"></i><span class="lang-txt">Albanian<span> (AL)</span></span></div>
-                    <div class="lang" data-value="en"><i class="flag-icon flag-icon-us"></i><span class="lang-txt">English<span> (US)</span></span></div>
-                    <div class="lang" data-value="de"><i class="flag-icon flag-icon-de"></i><span class="lang-txt">Deutsch</span></div>
-                    <div class="lang" data-value="es"><i class="flag-icon flag-icon-es"></i><span class="lang-txt">Español</span></div>
-                    <div class="lang" data-value="fr"><i class="flag-icon flag-icon-fr"></i><span class="lang-txt">Français</span></div>
-                    <div class="lang" data-value="pt"><i class="flag-icon flag-icon-pt"></i><span class="lang-txt">Português<span> (BR)</span></span></div>
-                    <div class="lang" data-value="cn"><i class="flag-icon flag-icon-cn"></i><span class="lang-txt">简体中文</span></div>
-                    <div class="lang" data-value="ae"><i class="flag-icon flag-icon-ae"></i><span class="lang-txt">لعربية <span> (ae)</span></span></div>
+                    <a href="{{ route('admin.set-locale', ['locale' => 'sq']) }}"><div class="lang{{ session('locale') == 'sq' ? ' selected' : '' }}" data-value="sq"><i class="flag-icon flag-icon-al"></i><span class="lang-txt">Albanian<span> (AL)</span></span></div></a>
+                    <a href="{{ route('admin.set-locale', ['locale' => 'en']) }}"><div class="lang{{ session('locale') == 'en' ? ' selected' : '' }}" data-value="en"><i class="flag-icon flag-icon-us"></i><span class="lang-txt">English<span> (US)</span></span></div></a>
                   </div>
                 </div>
               </li>

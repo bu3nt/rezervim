@@ -244,20 +244,20 @@
     });
 
     /*TRANSLATE*/
-    translate(tnum);
+    // translate(tnum);
 
-    $(".more_lang .lang").click(function () {
-      $(this).addClass("selected").siblings().removeClass("selected");
-      $(".more_lang").removeClass("active");
+    // $(".more_lang .lang").click(function () {
+    //   $(this).addClass("selected").siblings().removeClass("selected");
+    //   $(".more_lang").removeClass("active");
 
-      var i = $(this).find("i").attr("class");
-      var lang = $(this).attr("data-value");
-      var tnum = lang;
-      translate(tnum);
+    //   var i = $(this).find("i").attr("class");
+    //   var lang = $(this).attr("data-value");
+    //   var tnum = lang;
+    //   translate(tnum);
 
-      $(".current_lang .lang-txt").text(lang);
-      $(".current_lang i").attr("class", i);
-    });
+    //   $(".current_lang .lang-txt").text(lang);
+    //   $(".current_lang i").attr("class", i);
+    // });
   });
 
   function translate(tnum) {

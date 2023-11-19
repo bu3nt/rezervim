@@ -2,7 +2,7 @@
 
 return [
     'index' => [
-        'title' => 'Lista e Sliderave',
+        'title' => 'Lista e Sllajdeve',
         'description' => 'Një pëshkrim shembull',
         'table' => [
             'id' => 'ID',
@@ -16,7 +16,7 @@ return [
         ],
     ],
     'create' => [
-        'title' => 'Shto Slider',
+        'title' => 'Shto Sllajd',
         'description' => 'Një pëshkrim shembull',
         'form' => [
             'name' => 'Emri',
@@ -31,8 +31,8 @@ return [
         'save' => 'Ruaj'               
     ],
     'edit' => [
-        'title' => 'Ndryshimi i sliderit',
-        'description' => 'Azhuroni fushat e mëposhtme të sliderit',
+        'title' => 'Ndryshimi i Sllajdit',
+        'description' => 'Azhuroni fushat e mëposhtme të sllajdit',
         'form' => [
             'name' => 'Emri',
             'caption' => 'Titulli',
@@ -46,7 +46,7 @@ return [
         'save_changes' => 'Ruaj Ndryshimet'       
     ],
     'show' => [
-        'title' => 'Detajet e sliderit',
+        'title' => 'Detajet e Sllajdit',
         'description' => 'Një pëshkrim shembull',
         'fields' => [
             'name' => 'Emri',

@@ -11,16 +11,16 @@ return [
         'general' => 'Të përgjithshme',
         'dashboard' => 'Paneli',
         'testimonial' => 'Dëshmitë',
-        'slider' => 'Slider',
+        'slider' => 'Slideri',
         'testimonial' => [
             'nav' => 'Dëshmitë',
             'index' => 'Lista e Dëshmive',
             'create' => 'Shto Dëshmi',
         ],
         'slider' => [
-            'nav' => 'Slider',
-            'index' => 'Lista e Sliderave',
-            'create' => 'Shto Slider'
+            'nav' => 'Slideri',
+            'index' => 'Lista e Sllajdeve',
+            'create' => 'Shto Sllajd'
         ],
         'plan' => [
             'nav' => 'Planet',

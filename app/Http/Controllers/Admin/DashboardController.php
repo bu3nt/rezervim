@@ -12,4 +12,14 @@ class DashboardController extends Controller
     {
         return view('admin.dashboard.index');
     }
+
+    public function setLocale(Request $request, $locale)
+    {
+        if (! in_array($locale, ['sq', 'en'])) {
+            abort(400);
+        }
+        session(['locale' => $locale]);
+
+        return redirect()->back();
+    }
 }

@@ -26,6 +26,7 @@ Route::post('/contact_us', [LandingController::class, 'contact_us'])->name('land
 
 Route::group(['middleware' => ['role:member|admin|super-admin']], function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/dashboard/set-locale/{locale}', [DashboardController::class, 'setLocale'])->name('admin.set-locale');
     Route::group(['middleware' => ['role:admin|super-admin']], function () {
         Route::group(['middleware' => ['role:super-admin']], function () {
 
