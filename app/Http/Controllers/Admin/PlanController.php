@@ -45,9 +45,9 @@ class PlanController extends Controller
                     'name' => $plan->name,
                     'monthly' => __('plan.currency', ['value' => $plan->monthly]),
                     'yearly' => __('plan.currency', ['value' => $plan->yearly]),
-                    'popular' => $plan->popular,
+                    'popular' => $plan->popular ? '<span class="badge badge-success">'. __('plan.yes') .'</span>' : '<span class="badge badge-danger">'. __('plan.no') .'</span>',
                     'index' => $plan->index,
-                    'status' => $plan->status ? '<span class="badge badge-success">Aktiv</span>' : '<span class="badge badge-danger">Pasiv</span>',
+                    'status' => $plan->status ? '<span class="badge badge-success">'. __('plan.active') .'</span>' : '<span class="badge badge-danger">'. __('plan.inactive') .'</span>',
                     'action' => '<ul class="action"><li class="show"> <a href="'.route('admin.plan.show', ['plan' => $plan->id]).'"><i class="icon-eye"></i></a></li><li class="edit"> <a href="'.route('admin.plan.edit', ['plan' => $plan->id]).'"><i class="icon-pencil-alt"></i></a></li><li class="delete"><a href="javascript:void(0)" class="delete-btn" data-id="'.$plan->id.'"><i class="icon-trash"></i></a></li></ul>'
                 ];
             }

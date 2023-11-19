@@ -48,7 +48,7 @@ class SliderController extends Controller
                     'name' => '<img class="img-30 me-2" src="'.asset("storage/images/slider/".$slider->image).'" alt="'.$slider->name.'">' . $slider->name,
                     'caption' => $slider->caption,
                     'index' => $slider->index,
-                    'status' => $slider->status ? '<span class="badge badge-success">Aktiv</span>' : '<span class="badge badge-danger">Pasiv</span>',
+                    'status' => $slider->status ? '<span class="badge badge-success">'. __('slider.active') .'</span>' : '<span class="badge badge-danger">'. __('slider.inactive') .'</span>',
                     'action' => '<ul class="action"><li class="show"> <a href="'.route('admin.slider.show', ['slider' => $slider->id]).'"><i class="icon-eye"></i></a></li><li class="edit"> <a href="'.route('admin.slider.edit', ['slider' => $slider->id]).'"><i class="icon-pencil-alt"></i></a></li><li class="delete"><a href="javascript:void(0)" class="delete-btn" data-id="'.$slider->id.'"><i class="icon-trash"></i></a></li></ul>'
                 ];
             }

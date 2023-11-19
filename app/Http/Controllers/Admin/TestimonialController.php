@@ -60,7 +60,7 @@ class TestimonialController extends Controller
                     'name' => '<img class="img-30 me-2" src="'.asset("storage/images/testimonial/".$testimonial->image).'" alt="'.$testimonial->name.'">' . $testimonial->name,
                     'position' => $testimonial->position,
                     'rating' => $rating,
-                    'status' => $testimonial->status ? '<span class="badge badge-success">Aktiv</span>' : '<span class="badge badge-danger">Pasiv</span>',
+                    'status' => $testimonial->status ? '<span class="badge badge-success">'. __('testimonial.active') .'</span>' : '<span class="badge badge-danger">'. __('testimonial.inactive') .'</span>',
                     'action' => '<ul class="action"><li class="show"> <a href="'.route('admin.testimonial.show', ['testimonial' => $testimonial->id]).'"><i class="icon-eye"></i></a></li><li class="edit"> <a href="'.route('admin.testimonial.edit', ['testimonial' => $testimonial->id]).'"><i class="icon-pencil-alt"></i></a></li><li class="delete"><a href="javascript:void(0)" class="delete-btn" data-id="'.$testimonial->id.'"><i class="icon-trash"></i></a></li></ul>'
                 ];
             }
