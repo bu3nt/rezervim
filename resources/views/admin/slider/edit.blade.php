@@ -32,7 +32,7 @@
                         @method('PUT')
                         <div class="col-12"> 
                             <label class="form-label" for="sliderImage">{{ __('slider.edit.form.image') }}</label>
-                            <div class="mb-4"><img src="{{ asset('storage/images/slider/'.$slider->image) }}" alt="{{ $slider->name }}"></div>
+                            <div class="mb-4"><img style="width:100%" src="{{ asset('storage/images/slider/'.$slider->image) }}" alt="{{ $slider->name }}"></div>
                             <input class="form-control" id="sliderImage" name="image" type="file" accept="image/png, image/jpeg" aria-label="file example">
                             <div class="invalid-feedback">{{ __('slider.edit.invalid_feedback') }}{{ __('slider.edit.form.image') }}</div>
                         </div>                
