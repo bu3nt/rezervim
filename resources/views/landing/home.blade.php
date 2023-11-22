@@ -257,11 +257,12 @@
                       width: 80%;
                       position: relative;
                       transition: all 5s ease-in-out;
+                      height: 70%;
                     }
                     .popup .close {
                       position: absolute;
-                      top: 5px;
-                      right: 20px;
+                      top: -5px;
+                      right: 10px;
                       transition: all 200ms;
                       font-size: 30px;
                       font-weight: bold;
@@ -272,14 +273,30 @@
                       color: red;
                     }
                     .popup .content {
-                      max-height: 60%;
+                      max-height: 100%;
                       overflow: auto;
+                      height: 100%;
                     }
                     @media screen and (max-width: 700px){
                       .popup{
                         width: 70%;
+                        height: 70%;
                       }
-                    }                   
+                      .popup .content {
+                        max-height: 100%;
+                        height:70%;
+                      }                       
+                    } 
+                    @media screen and (max-width: 480px){
+                      .popup{
+                        width: 70%;
+                        height: 70%;
+                      }
+                      .popup .content {
+                        max-height: 100%;
+                        height:70%;
+                      }                      
+                    }                                       
                   </style>
                   <a
                     href="#popup1"
@@ -291,7 +308,7 @@
                     <div class="popup">
                       <a class="close" href="#">&times;</a>
                       <div class="content">
-                        <iframe width="100%" height="600" frameborder="0" allowfullscreen
+                        <iframe width="100%" height="100%" frameborder="0" allowfullscreen
                         src="https://www.youtube.com/embed/m9nmyC9tDhY?controls=0&autoplay=1&rel=0">
                         </iframe>
                       </div>
