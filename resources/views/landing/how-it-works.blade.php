@@ -7,7 +7,7 @@
         <div class="-mx-4 flex flex-wrap items-center">
           <div class="w-full px-4">
             <div class="text-center">
-              <h1 class="text-4xl font-semibold text-white">{{ __('auth.privacy') }}</h1>
+              <h1 class="text-4xl font-semibold text-white">{{ __('auth.how_it_works') }}</h1>
             </div>
           </div>
         </div>

@@ -30,6 +30,16 @@ class LandingController extends Controller
         return view('landing.terms');
     }
 
+    public function how_it_works()
+    {
+        return view('landing.how-it-works');
+    }
+
+    public function refund_policy()
+    {
+        return view('landing.refund-policy');
+    }
+
     public function contact_us(Request $request)
     {
         Mail::to('butrint.xh.babuni@gmail.com')->send(new ContactMailer($request));

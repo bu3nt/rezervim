@@ -33,6 +33,8 @@ return [
     'terms' => 'Terms',
     'privacy' => 'Privacy',
     'policy' => 'Policy',
+    'how_it_works' => 'How it works',
+    'refund_policy' => 'Refund Policy',
     'and' => 'and',
     'reset_password' => 'Reset Password',
     'forgot_description' => 'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.',

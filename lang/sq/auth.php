@@ -33,6 +33,8 @@ return [
     'terms' => 'Kushtet',
     'privacy' => 'Privatësia',
     'policy' => 'Politika',
+    'how_it_works' => 'Si funksionon',
+    'refund_policy' => 'Politikat e Kthimit',
     'and' => 'dhe',
     'reset_password' => 'Rivendos fjalëkalimin',
     'forgot_description' => 'Keni harruar fjalëkalimin tuaj? Nuk ka problem. Thjesht na tregoni adresën tuaj të emailit dhe ne do t\'ju dërgojmë me email një vegëz të rivendosjes së fjalëkalimit që do t\'ju lejojë të zgjidhni një të ri.',

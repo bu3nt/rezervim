@@ -79,4 +79,14 @@
       </div>
     </div>
     <!-- ====== Banner Section End -->
+    <section class="bg-[#F4F7FF] py-14 lg:py-20">
+      <div class="container">
+        <div class="-mx-4 flex flex-wrap">
+          <div class="w-full px-4">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    @include('layouts.footer')
 </x-landing-layout>

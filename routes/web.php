@@ -22,6 +22,8 @@ use App\Http\Controllers\Admin\TestimonialController;
 Route::get('/', [LandingController::class, 'home'])->name('landing.home');
 Route::get('/privacy', [LandingController::class, 'privacy'])->name('landing.privacy');
 Route::get('/terms', [LandingController::class, 'terms'])->name('landing.terms');
+Route::get('/how_it_works', [LandingController::class, 'how_it_works'])->name('landing.how_it_works');
+Route::get('/refund_policy', [LandingController::class, 'refund_policy'])->name('landing.refund_policy');
 Route::post('/contact_us', [LandingController::class, 'contact_us'])->name('landing.contact_us');
 
 Route::group(['middleware' => ['role:member|admin|super-admin']], function () {

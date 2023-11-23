@@ -135,7 +135,7 @@
               <ul>
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="{{ route('landing.how_it_works') }}"
                     class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
                   >
                     Si funksionon
@@ -143,7 +143,7 @@
                 </li>
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="{{ route('landing.privacy') }}"
                     class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
                   >
                     Politikat e privatësisë
@@ -151,7 +151,7 @@
                 </li>
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="{{ route('landing.terms') }}"
                     class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
                   >
                     Kushtet e Shërbimit
@@ -159,7 +159,7 @@
                 </li>
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="{{ route('landing.refund_policy') }}"
                     class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
                   >
                     Politikat e Kthimit
@@ -176,7 +176,7 @@
               <ul>
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="https://lineicons.com"
                     class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
                   >
                     LineIcons
@@ -184,7 +184,7 @@
                 </li>
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="https://ecommercehtml.com"
                     class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
                   >
                     Ecommerce HTML
@@ -192,7 +192,7 @@
                 </li>
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="https://ayroui.com"
                     class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
                   >
                     Ayro UI
@@ -200,7 +200,7 @@
                 </li>
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="https://uideck.com"
                     class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
                   >
                     PlainAdmin
@@ -306,19 +306,13 @@
                   class="-mx-3 flex items-center justify-center md:justify-start"
                 >
                   <a
-                    href="javascript:void(0)"
+                    href="{{ route('landing.privacy') }}"
                     class="px-3 text-base text-[#f3f4fe] hover:text-primary"
                   >
                     Policia e Privatësisë
                   </a>
                   <a
-                    href="javascript:void(0)"
-                    class="px-3 text-base text-[#f3f4fe] hover:text-primary"
-                  >
-                    Njoftim Ligjor
-                  </a>
-                  <a
-                    href="javascript:void(0)"
+                    href="{{ route('landing.terms') }}"
                     class="px-3 text-base text-[#f3f4fe] hover:text-primary"
                   >
                     Kushtet e Shërbimit
