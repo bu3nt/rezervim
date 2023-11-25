@@ -73,6 +73,7 @@
         </div>
     </div>
     <x-slot:custom_js>
+    <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
     <script>
         $(document).ready(function () {
             var sliderStatus = {{ $slider->status }};

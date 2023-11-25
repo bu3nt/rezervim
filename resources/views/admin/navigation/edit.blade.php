@@ -37,15 +37,31 @@
                             <div class="valid-feedback">{{ __('navigation.edit.valid_feedback') }}</div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label" for="navigationMonthly">{{ __('navigation.edit.form.monthly') }}</label>
-                            <input class="form-control" id="navigationMonthly" name="monthly" type="text" value="{{ $navigation->monthly }}" required="">
-                            <div class="invalid-feedback">{{ __('navigation.edit.invalid_feedback') }}{{ __('navigation.edit.form.monthly') }}</div>
+                            <label class="form-label" for="navigationUrl">{{ __('navigation.edit.form.url') }}</label>
+                            <input class="form-control" id="navigationUrl" name="url" type="text" value="{{ $navigation->url }}" required="">
+                            <div class="invalid-feedback">{{ __('navigation.edit.invalid_feedback') }}{{ __('navigation.edit.form.url') }}</div>
                             <div class="valid-feedback">{{ __('navigation.edit.valid_feedback') }}</div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label" for="navigationYearly">{{ __('navigation.edit.form.yearly') }}</label>
-                            <input class="form-control" id="navigationYearly" name="yearly" type="text" value="{{ $navigation->yearly }}" required="">
-                            <div class="invalid-feedback">{{ __('navigation.edit.invalid_feedback') }}{{ __('navigation.edit.form.yearly') }}</div>
+                            <label class="form-label" for="navigationParent">{{ __('navigation.edit.form.parent') }}</label>
+                            <select class="form-select" name="parent_id" id="navigationParent" aria-label="navigationParent">
+                                <option value="">- Zgjedh Prindin -</option>
+                                @foreach($parents as $parent)
+                                <option value="{{ $parent->id }}" {{ ($parent->id == $navigation->parent_id ? 'selected' : '') }}>{{ $parent->title }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">{{ __('navigation.edit.invalid_feedback') }}{{ __('navigation.edit.form.parent') }}</div>
+                            <div class="valid-feedback">{{ __('navigation.edit.valid_feedback') }}</div>
+                        </div>                        
+                        <div class="col-12">
+                            <label class="form-label" for="navigationTarget">{{ __('navigation.edit.form.target') }}</label>
+                            <select class="form-select" name="target" id="navigationTarget" aria-label="navigationTarget" >
+                                <option value="">- Zgjedh Targetin -</option>
+                                <option value="_blank" {{ ($navigation->target == '_blank' ? 'selected' : '') }}>Blank</option>
+                                <option value="_parent" {{ ($navigation->target == '_parent' ? 'selected' : '') }}>Parent</option>
+                                <option value="_top" {{ ($navigation->target == '_top' ? 'selected' : '') }}>Top</option>
+                            </select>
+                            <div class="invalid-feedback">{{ __('navigation.edit.invalid_feedback') }}{{ __('navigation.edit.form.target') }}</div>
                             <div class="valid-feedback">{{ __('navigation.edit.valid_feedback') }}</div>
                         </div>                        
                         <div class="col-12">
@@ -68,6 +84,7 @@
         </div>
     </div>
     <x-slot:custom_js>
+    <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
     <script>
         $(document).ready(function () {
             var navigationStatus = {{ $navigation->status }};

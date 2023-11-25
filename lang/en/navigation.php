@@ -94,6 +94,8 @@ return [
         'edit' => 'Edit',
         'delete' => 'Delete',
     ],
+    'choose_parent' => 'Choose Parent',
+    'choose_target' => 'Choose Target',
     'active' => 'Active',
     'inactive' => 'Pasive',
     'yes' => 'Yes',

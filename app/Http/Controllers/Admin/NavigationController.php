@@ -69,7 +69,8 @@ class NavigationController extends Controller
      */
     public function create()
     {
-        return view('admin.navigation.create');
+        $parents = Navigation::get();
+        return view('admin.navigation.create', compact('parents'));
     }
 
     /**
@@ -80,8 +81,8 @@ class NavigationController extends Controller
         $validator = Validator::make($request->all(),[
             'title' => 'required|max:255',
             'url' => 'required|max:255',
-            'parent_id' => 'numeric|different:id',
-            'target' => 'max:255',
+            'parent_id' => 'nullable|numeric|different:id',
+            'target' => 'nullable|in:_parent,_blank,_top',
             'status' => 'boolean'
         ]);
 
@@ -117,8 +118,8 @@ class NavigationController extends Controller
      */
     public function edit(Navigation $navigation)
     {
-        $parent = Navigation::where('id', '!=', $navigation->id)->get();
-        return view('admin.navigation.edit', compact('navigation', 'parent'));
+        $parents = Navigation::where('id', '!=', $navigation->id)->get();
+        return view('admin.navigation.edit', compact('navigation', 'parents'));
     }
 
     /**
@@ -126,7 +127,30 @@ class NavigationController extends Controller
      */
     public function update(Request $request, Navigation $navigation)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|max:255',
+            'url' => 'required|max:255',
+            'parent_id' => 'nullable|numeric|different:id',
+            'target' => 'nullable|in:_parent,_blank,_top',
+            'status' => 'boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(url()->previous())
+                    ->withErrors($validator)
+                    ->withInput();
+        }
+
+        $navigation = Navigation::findOrFail($navigation->id);
+        $navigation->update([
+            'title' => $request['title'],
+            'url' => $request['url'],
+            'parent_id' => $request['parent_id'],
+            'target' => $request['target'],
+            'status' => $request['status'] ? 1 : 0,
+        ]);
+
+        return redirect(route('admin.navigation.show', $navigation))->with('success', 'Navigimi u ndryshua me sukses!');
     }
 
     /**

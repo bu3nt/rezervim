@@ -31,34 +31,39 @@
                         @csrf
                         @method('POST')              
                         <div class="col-12">
-                            <label class="form-label" for="navigationName">{{ __('navigation.create.form.name') }}</label>
-                            <input class="form-control" id="navigationName" name="name" type="text" value="" required="">
-                            <div class="invalid-feedback">{{ __('navigation.create.invalid_feedback') }}{{ __('navigation.create.form.name') }}</div>
+                            <label class="form-label" for="navigationTitle">{{ __('navigation.create.form.title') }}</label>
+                            <input class="form-control" id="navigationTitle" name="title" type="text" value="" required="">
+                            <div class="invalid-feedback">{{ __('navigation.create.invalid_feedback') }}{{ __('navigation.create.form.title') }}</div>
                             <div class="valid-feedback">{{ __('navigation.create.valid_feedback') }}</div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label" for="navigationMonthly">{{ __('navigation.create.form.monthly') }}</label>
-                            <input class="form-control" id="navigationMonthly" name="monthly" type="text" value="" required="">
-                            <div class="invalid-feedback">{{ __('navigation.create.invalid_feedback') }}{{ __('navigation.create.form.monthly') }}</div>
+                            <label class="form-label" for="navigationUrl">{{ __('navigation.create.form.url') }}</label>
+                            <input class="form-control" id="navigationUrl" name="url" type="text" value="" required="">
+                            <div class="invalid-feedback">{{ __('navigation.create.invalid_feedback') }}{{ __('navigation.create.form.url') }}</div>
                             <div class="valid-feedback">{{ __('navigation.create.valid_feedback') }}</div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label" for="navigationYearly">{{ __('navigation.create.form.yearly') }}</label>
-                            <input class="form-control" id="navigationYearly" name="yearly" type="text" value="" required="">
-                            <div class="invalid-feedback">{{ __('navigation.create.invalid_feedback') }}{{ __('navigation.create.form.yearly') }}</div>
+                            <label class="form-label" for="navigationParent">{{ __('navigation.create.form.parent') }}</label>
+                            <select class="form-select" name="parent_id" id="navigationParent" aria-label="navigationParent">
+                                <option value="">- Zgjedh Prindin -</option>
+                                @foreach($parents as $parent)
+                                <option value="{{ $parent->id }}">{{ $parent->title }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">{{ __('navigation.create.invalid_feedback') }}{{ __('navigation.create.form.parent') }}</div>
                             <div class="valid-feedback">{{ __('navigation.create.valid_feedback') }}</div>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" for="navigationPopular">{{ __('navigation.create.form.popular') }}</label>
-                            <div class="media">
-                            <div class="media-body text-end icon-state">
-                                <label class="switch">
-                                <input id="navigationPopular" name="popular" type="checkbox" value="1"><span class="switch-state"></span>
-                                </label>
-                            </div>
-                            <label class="col-form-label m-l-10" id="navigationPopularLabel">{{ __('navigation.no') }}</label>
-                            </div>
                         </div>                        
+                        <div class="col-12">
+                            <label class="form-label" for="navigationTarget">{{ __('navigation.create.form.target') }}</label>
+                            <select class="form-select" name="target" id="navigationTarget" aria-label="navigationTarget" >
+                                <option value="">- Zgjedh Targetin -</option>
+                                <option value="_blank">Blank</option>
+                                <option value="_parent">Parent</option>
+                                <option value="_top">Top</option>
+                            </select>
+                            <div class="invalid-feedback">{{ __('navigation.create.invalid_feedback') }}{{ __('navigation.create.form.target') }}</div>
+                            <div class="valid-feedback">{{ __('navigation.create.valid_feedback') }}</div>
+                        </div>                                              
                         <div class="col-12">
                             <label class="form-label" for="navigationStatus">{{ __('navigation.create.form.status') }}</label>
                             <div class="media">
@@ -79,6 +84,7 @@
         </div>
     </div>
     <x-slot:custom_js>
+    <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>    
     <script>
         $(document).ready(function () {
             var active = '{{ __('navigation.active') }}';
@@ -96,19 +102,7 @@
                     $('#navigationStatusLabel').removeClass('font-success');
                     $('#navigationStatusLabel').addClass('font-danger');
                 }                
-            });
-
-            $('#navigationPopular').change(function() {
-                if($(this).prop('checked')){
-                    $('#navigationPopularLabel').html(yes);
-                    $('#navigationPopularLabel').removeClass('font-danger');
-                    $('#navigationPopularLabel').addClass('font-success');
-                }else{
-                    $('#navigationPopularLabel').html(no);
-                    $('#navigationPopularLabel').removeClass('font-success');
-                    $('#navigationPopularLabel').addClass('font-danger');
-                }                
-            });            
+            });           
         });  
     </script> 
     </x-slot:custom_js>   

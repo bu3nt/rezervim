@@ -87,6 +87,7 @@
         </div>
     </div>
     <x-slot:custom_js>
+    <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
     <script src="{{ asset('assets/js/rating/jquery.barrating.js') }}"></script>
     <script>
         $(document).ready(function () {

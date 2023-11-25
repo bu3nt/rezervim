@@ -94,6 +94,8 @@ return [
         'edit' => 'Ndrysho',
         'delete' => 'Fshije',
     ],
+    'choose_parent' => 'Zgjedh Prindin',
+    'choose_target' => 'Zgjedh Targetin',
     'active' => 'Aktiv',
     'inactive' => 'Pasiv',
     'yes' => 'Po',
