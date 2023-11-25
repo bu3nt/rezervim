@@ -15,7 +15,7 @@ class NavigationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $selectColumns = ['id', 'title', 'url', 'target', 'index', 'status'];
+            $selectColumns = ['id', 'title', 'parent_id', 'url', 'target', 'index', 'status'];
     
             $data = Navigation::select($selectColumns)
                 ->orderBy('index', 'asc')
@@ -36,15 +36,15 @@ class NavigationController extends Controller
                     ->orWhere('index', 'like', '%' . $request->input('search.value') . '%')
                     ->count();
             }
-            
+          
             $filteredData = [];
-            
+
             foreach($data as $navigation){
                 $filteredData[] = [
                     'id' => $navigation->id,
                     'title' => $navigation->title,
-                    'parent' => $navigation->parent,
                     'url' => $navigation->url,
+                    'parent' => $navigation->parent ? $navigation->parent->title : '',
                     'target' => $navigation->target,
                     'index' => $navigation->index,
                     'status' => $navigation->status ? '<span class="badge badge-success">'. __('navigation.active') .'</span>' : '<span class="badge badge-danger">'. __('navigation.inactive') .'</span>',
@@ -69,7 +69,7 @@ class NavigationController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.navigation.create');
     }
 
     /**
@@ -77,7 +77,31 @@ class NavigationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|max:255',
+            'url' => 'required|max:255',
+            'parent_id' => 'numeric|different:id',
+            'target' => 'max:255',
+            'status' => 'boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(url()->previous())
+                    ->withErrors($validator)
+                    ->withInput();
+        }
+
+        $maxIndex = Navigation::max('index');
+        $plan = Navigation::create([
+            'title' => $request['title'],
+            'url' => $request['url'],
+            'parent_id' => $request['parent_id'],
+            'target' => $request['target'],
+            'index' => $maxIndex + 1,
+            'status' => $request['status'] ? 1 : 0,
+        ]);
+
+        return redirect(route('admin.navigation'))->with('success', 'Navigimi u shtua me sukses!');
     }
 
     /**
@@ -85,7 +109,7 @@ class NavigationController extends Controller
      */
     public function show(Navigation $navigation)
     {
-        //
+        return view('admin.navigation.show', compact('navigation'));
     }
 
     /**
@@ -93,7 +117,8 @@ class NavigationController extends Controller
      */
     public function edit(Navigation $navigation)
     {
-        //
+        $parent = Navigation::where('id', '!=', $navigation->id)->get();
+        return view('admin.navigation.edit', compact('navigation', 'parent'));
     }
 
     /**

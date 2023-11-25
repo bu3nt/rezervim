@@ -36,8 +36,8 @@
                         <thead>
                             <tr>
                                 <th>{{ __('navigation.index.table.title') }}</th>
-                                <th>{{ __('navigation.index.table.parent') }}</th>
                                 <th>{{ __('navigation.index.table.url') }}</th>
+                                <th>{{ __('navigation.index.table.parent') }}</th>
                                 <th>{{ __('navigation.index.table.target') }}</th>
                                 <th>{{ __('navigation.index.table.index') }}</th>
                                 <th>{{ __('navigation.index.table.status') }}</th>
@@ -47,8 +47,8 @@
                         <tfoot>
                             <tr>
                                 <th>{{ __('navigation.index.table.title') }}</th>
-                                <th>{{ __('navigation.index.table.parent') }}</th>
                                 <th>{{ __('navigation.index.table.url') }}</th>
+                                <th>{{ __('navigation.index.table.parent') }}</th>
                                 <th>{{ __('navigation.index.table.target') }}</th>
                                 <th>{{ __('navigation.index.table.index') }}</th>
                                 <th>{{ __('navigation.index.table.status') }}</th>
@@ -75,8 +75,8 @@
             ajax: "{{ route('admin.navigation') }}",            
             columns: [
                 { data: 'title', name: 'title', orderable: false },
-                { data: 'parent', name: 'parent', orderable: false },
                 { data: 'url', name: 'url', orderable: false },
+                { data: 'parent', name: 'parent', orderable: false },
                 { data: 'target', name: 'target', orderable: false },
                 { data: 'index', name: 'index', orderable: false },
                 { data: 'status', name: 'status', orderable: false },

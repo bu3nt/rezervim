@@ -13,7 +13,7 @@ class LandingLayout extends Component
      */
     public function render(): View
     {
-        $navigation = Navigation::where('status', 1)->orderBy('index', 'asc')->get();
+        $navigation = Navigation::where('status', 1)->where('parent_id', null)->orderBy('index', 'asc')->get();
         return view('layouts.landing', compact('navigation'));
     }
 }
