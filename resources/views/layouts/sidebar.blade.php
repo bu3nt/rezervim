@@ -35,6 +35,18 @@
                 </li>
                 <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon">
+                        <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-task') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                        <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"></use>
+                    </svg><span>{{ __('navigation.admin.navigation.nav') }}</span></a>
+                    <ul class="sidebar-submenu">
+                      <li><a href="{{ route('admin.navigation') }}">{{ __('navigation.admin.navigation.index') }}</a></li>
+                      <li><a href="{{ route('admin.navigation.create') }}">{{ __('navigation.admin.navigation.create') }}</a></li>
+                    </ul>
+                </li>                
+                <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
                         <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-gallery') }}"></use>
                     </svg>
                     <svg class="fill-icon">
@@ -68,7 +80,200 @@
                       <li><a href="{{ route('admin.plan') }}">{{ __('navigation.admin.plan.index') }}</a></li>
                       <li><a href="{{ route('admin.plan.create') }}">{{ __('navigation.admin.plan.create') }}</a></li>
                     </ul>
-                </li>                             
+                </li>
+                @role('super-admin')
+                <li class="sidebar-main-title">
+                    <div>
+                        <h6 class="lan-1">{{ __('navigation.admin.subjects') }}</h6>
+                    </div>
+                </li>
+                <li class="mega-menu sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                        <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-others') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                        <use href="{{ asset('assets/svg/icon-sprite.svg#fill-others') }}"></use>
+                    </svg>
+                    <span>{{ __('navigation.admin.semester') }} 1</span></a>
+                    <div class="mega-menu-container menu-content">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Multimedia Kompjuterike</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="{{ route('admin.lendet.pixijs_hanoi') }}">PixiJS - Kullat Hanoi</a></li>
+                                <li><a href="{{ route('admin.lendet.pixijs_tictactoe') }}">PixiJS - TicTacToe</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Databaze Avancuar</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>OOP Avancuar</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Komp. Jo-Konvencional</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>                          
+                        </div>
+                      </div>
+                    </div>
+                </li>
+                <li class="mega-menu sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                        <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-others') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                        <use href="{{ asset('assets/svg/icon-sprite.svg#fill-others') }}"></use>
+                    </svg>
+                    <span>{{ __('navigation.admin.semester') }} 2</span></a>
+                    <div class="mega-menu-container menu-content">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Algoritmet e Zgjedhura</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Ekstraktimi i Web</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Shkenca e te Dhenave</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Komp. Kloud i Avancuar</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div> 
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Analiza e Rrjetave</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>                                                     
+                        </div>
+                      </div>
+                    </div>
+                </li>
+                <li class="mega-menu sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                        <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-others') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                        <use href="{{ asset('assets/svg/icon-sprite.svg#fill-others') }}"></use>
+                    </svg>
+                    <span>{{ __('navigation.admin.semester') }} 3</span></a>
+                    <div class="mega-menu-container menu-content">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>IA Avancuar</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Siguria Kompjuterike</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Sensoret Wireless</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Met. Emp. Kerkuese</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col mega-box">
+                            <div class="link-section">
+                              <div class="submenu-title">
+                                <h5>Mekatronika</h5>
+                              </div>
+                              <ul class="submenu-content opensubmegamenu">
+                                <li><a href="#">Test</a></li>
+                              </ul>
+                            </div>
+                          </div>                                                     
+                        </div>
+                      </div>
+                    </div>
+                </li>
+                @endrole                                                                                           
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
         </nav>

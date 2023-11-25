@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TestimonialSeeder::class,
             PlanSeeder::class,
-            SliderSeeder::class
+            SliderSeeder::class,
+            NavigationSeeder::class
         ]);
 
     }

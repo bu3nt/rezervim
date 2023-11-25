@@ -17,7 +17,7 @@ class LandingController extends Controller
         $slider = Slider::where('status', 1)->orderBy('index', 'asc')->get();
         $plans = Plan::where('status', 1)->orderBy('index', 'asc')->get();
         $testimonials = Testimonial::where('status', 1)->get();
-        return view('landing.home', compact('testimonials', 'plans', 'slider'));
+        return view('landing.home', compact('slider', 'plans', 'testimonials'));
     }
 
     public function privacy()

@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\LendetController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\NavigationController;
 use App\Http\Controllers\Admin\TestimonialController;
 
 /*
@@ -31,8 +33,21 @@ Route::group(['middleware' => ['role:member|admin|super-admin']], function () {
     Route::get('/admin/dashboard/set-locale/{locale}', [DashboardController::class, 'setLocale'])->name('admin.set-locale');
     Route::group(['middleware' => ['role:admin|super-admin']], function () {
         Route::group(['middleware' => ['role:super-admin']], function () {
-
+            Route::get('/admin/lendet/pixijs_hanoi', [LendetController::class, 'pixijs_hanoi'])->name('admin.lendet.pixijs_hanoi');
+            Route::get('/admin/lendet/pixijs_tictactoe', [LendetController::class, 'pixijs_tictactoe'])->name('admin.lendet.pixijs_tictactoe');
         });
+        Route::resource('admin/navigation', NavigationController::class, [
+            'names' => [
+                'index' => 'admin.navigation',
+                'create' => 'admin.navigation.create',
+                'store' => 'admin.navigation.store',
+                'show' => 'admin.navigation.show',
+                'edit' => 'admin.navigation.edit',
+                'update' => 'admin.navigation.update',
+                'destroy' => 'admin.navigation.destroy',
+            ],
+        ]);
+        Route::post('admin/navigation/updateOrder', [NavigationController::class, 'updateOrder'])->name('admin.navigation.updateOrder');      
         Route::resource('admin/testimonial', TestimonialController::class, [
             'names' => [
                 'index' => 'admin.testimonial',

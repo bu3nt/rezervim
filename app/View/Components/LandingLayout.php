@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use App\Models\Navigation;
 
 class LandingLayout extends Component
 {
@@ -12,6 +13,7 @@ class LandingLayout extends Component
      */
     public function render(): View
     {
-        return view('layouts.landing');
+        $navigation = Navigation::where('status', 1)->orderBy('index', 'asc')->get();
+        return view('layouts.landing', compact('navigation'));
     }
 }
