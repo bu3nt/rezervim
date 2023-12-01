@@ -33,8 +33,8 @@ Route::group(['middleware' => ['role:member|admin|super-admin']], function () {
     Route::get('/admin/dashboard/set-locale/{locale}', [DashboardController::class, 'setLocale'])->name('admin.set-locale');
     Route::group(['middleware' => ['role:admin|super-admin']], function () {
         Route::group(['middleware' => ['role:super-admin']], function () {
-            Route::get('/admin/lendet/pixijs_hanoi', [LendetController::class, 'pixijs_hanoi'])->name('admin.lendet.pixijs_hanoi');
-            Route::get('/admin/lendet/pixijs_tictactoe', [LendetController::class, 'pixijs_tictactoe'])->name('admin.lendet.pixijs_tictactoe');
+            Route::get('/admin/lendet/multimedia/pixijs_hanoi', [LendetController::class, 'pixijs_hanoi'])->name('admin.lendet.multimedia.pixijs_hanoi');
+            Route::get('/admin/lendet/multimedia/pixijs_tictactoe', [LendetController::class, 'pixijs_tictactoe'])->name('admin.lendet.multimedia.pixijs_tictactoe');
         });
         Route::resource('admin/navigation', NavigationController::class, [
             'names' => [

@@ -104,8 +104,8 @@
                                 <h5>Multimedia Kompjuterike</h5>
                               </div>
                               <ul class="submenu-content opensubmegamenu">
-                                <li><a href="{{ route('admin.lendet.pixijs_hanoi') }}">PixiJS - Kullat Hanoi</a></li>
-                                <li><a href="{{ route('admin.lendet.pixijs_tictactoe') }}">PixiJS - TicTacToe</a></li>
+                                <li><a href="{{ route('admin.lendet.multimedia.pixijs_hanoi') }}">PixiJS - Kullat Hanoi</a></li>
+                                <li><a href="{{ route('admin.lendet.multimedia.pixijs_tictactoe') }}">PixiJS - TicTacToe</a></li>
                               </ul>
                             </div>
                           </div>
