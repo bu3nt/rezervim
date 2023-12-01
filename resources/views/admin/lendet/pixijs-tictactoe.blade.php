@@ -55,6 +55,7 @@
                     </style>                    
                     <div class="centered-div">
                         <h1>Tic Tac Toe</h1>
+                        <p>Dueli në mes të Master Card dhe VISA</p>
                         <div id="tictactoe">
 
                         </div>        
@@ -72,14 +73,19 @@
         // Krijimi dhe vendosa e PixiJS canvasit ne div
         const app = new PIXI.Application({ width: 300, height: 300 });
         tictactoe.appendChild(app.view);
-    
+
+        // Krijimi i figurave
+        const mastercard = '{{ asset('assets/images/ecommerce/mastercard.png') }}';
+        const visa = '{{ asset('assets/images/ecommerce/visa.png') }}';
+
         // Paramertat e Tic Tac Toe
         const boardSize = 3;
         const cellSize = app.renderer.width / boardSize;
-        const players = ['X', 'O'];
+        const players = [['Master Card', mastercard], ['Visa', visa]];
         let currentPlayer = players[0];
         let gameBoard = [];
     
+
         // Funksioni i inicializimit te Lojes
         function initializeGame() {
             for (let i = 0; i < boardSize; i++) {
@@ -101,18 +107,19 @@
         // Function per ta trajtuar eventin e klikimit
         function handleCellClick(row, col, cell) {
             if (gameBoard[row][col].value === '') {
-                gameBoard[row][col].value = currentPlayer;
-                const text = new PIXI.Text(currentPlayer, { fontSize: 40, fill: 0x000000 });
-                text.anchor.set(0.5);
-                text.x = col * cellSize + cellSize / 2;
-                text.y = row * cellSize + cellSize / 2;
-                app.stage.addChild(text);
-    
+                gameBoard[row][col].value = currentPlayer[1];
+
+                const currentSprite = PIXI.Sprite.from(currentPlayer[1]);
+                currentSprite.anchor.set(0.5);
+                currentSprite.x = col * cellSize + cellSize / 2;
+                currentSprite.y = row * cellSize + cellSize / 2;   
+                app.stage.addChild(currentSprite);
+
                 // Kontrollimi per fitore apo barazim
                 if (checkWin(row, col)) {
                     swal({
                         title: "Loja Mbaroi!",
-                        text: currentPlayer + " fitoi!",
+                        text: currentPlayer[0] + " fitoi!",
                         icon: "success"
                     });
                     resetGame();
@@ -132,21 +139,21 @@
         // Funksioni per te kontrolluar per fitore
         function checkWin(row, col) {
             // Check row
-            if (gameBoard[row].every(cell => cell.value === currentPlayer)) {
+            if (gameBoard[row].every(cell => cell.value === currentPlayer[1])) {
                 return true;
             }
     
             // Check column
-            if (gameBoard.every(row => row[col].value === currentPlayer)) {
+            if (gameBoard.every(row => row[col].value === currentPlayer[1])) {
                 return true;
             }
     
             // Check diagonals
-            if (row === col && gameBoard.every((row, index) => row[index].value === currentPlayer)) {
+            if (row === col && gameBoard.every((row, index) => row[index].value === currentPlayer[1])) {
                 return true;
             }
     
-            if (row + col === boardSize - 1 && gameBoard.every((row, index) => row[boardSize - 1 - index].value === currentPlayer)) {
+            if (row + col === boardSize - 1 && gameBoard.every((row, index) => row[boardSize - 1 - index].value === currentPlayer[1])) {
                 return true;
             }
     
