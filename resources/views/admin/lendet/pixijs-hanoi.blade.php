@@ -82,7 +82,6 @@
             tower.position.set(towers[i].x, towers[i].y);
             towerStick.beginFill(0xFFFFFF);
             towerStick.drawRect(0, 0, towerStickWidth, towerStickHeight);
-            console.log(towers[i].y + towerHeight);
             towerStick.position.set(towers[i].x + ((towerWidth / 2) - (towerStickWidth / 2)), towers[i].y - towerHeight);            
             app.stage.addChild(tower);
             app.stage.addChild(towerStick);
