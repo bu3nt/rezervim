@@ -37,7 +37,8 @@
                         }      
                     </style>                    
                     <div class="centered-div">
-                        <h1>Kullat e Hanoi-it</h1>
+                        <h1>Kullat e Hanoi-t</h1>
+                        <p>Tentoni ti vendosni disqet nga kulla e parë në kullën e fundit</p>
                         <div id="hanoi">
 
                         </div>        
@@ -58,7 +59,9 @@
         // Parametrat e Kullat e Hanoi-t
         const numDiscs = 4;
         const towerWidth = 150;
-        const towerHeight = 400;
+        const towerHeight = 200;
+        const towerStickWidth = 10;
+        const towerStickHeight = 200;
         const discWidth = 30;
         const discHeight = 20;
         const towerGap = 200;
@@ -73,10 +76,16 @@
         // Krijimi i Kullave
         for (let i = 0; i < towers.length; i++) {
             const tower = new PIXI.Graphics();
+            const towerStick = new PIXI.Graphics();
             tower.beginFill(0x663300);
             tower.drawRect(0, 0, towerWidth, towerHeight);
             tower.position.set(towers[i].x, towers[i].y);
+            towerStick.beginFill(0xFFFFFF);
+            towerStick.drawRect(0, 0, towerStickWidth, towerStickHeight);
+            console.log(towers[i].y + towerHeight);
+            towerStick.position.set(towers[i].x + ((towerWidth / 2) - (towerStickWidth / 2)), towers[i].y - towerHeight);            
             app.stage.addChild(tower);
+            app.stage.addChild(towerStick);
         }
     
         // Krijimi i disqeve me ngjyra te ndryshme
@@ -135,7 +144,7 @@
 
             const disc = fromTower.discs.pop();
             disc.x = toTower.x + (towerWidth - disc.width) / 2;
-            disc.y = toTower.y - toTower.discs.length * discHeight;
+            disc.y = (toTower.y - toTower.discs.length * discHeight) - discHeight;
             toTower.discs.push(disc);
 
             // Reset the selected disc's tint
