@@ -92,15 +92,14 @@
         const selectedDiscColor = 0xFFFF00; // Ngjyra per diskun e selektuar
         let selectedDisc = null;
 
-        for (let i = 0; i < numDiscs; i++) {
+        for (let i = numDiscs - 1; i >= 0; i--) {
             const disc = new PIXI.Graphics();
             disc.beginFill(discColors[i]);
             disc.drawRect(0, 0, discWidth + i * 20, discHeight);
-            disc.position.set(towers[0].x + (towerWidth - discWidth - i * 20) / 2, towers[0].y - (i + 1) * discHeight);
+            disc.position.set(towers[0].x + (towerWidth - discWidth - i * 20) / 2, towers[0].y - (numDiscs - i) * discHeight);
             towers[0].discs.push(disc);
             app.stage.addChild(disc);
 
-            // Event listener for disc click
             disc.interactive = true;
             disc.on('pointerdown', () => {
                 if (selectedDisc !== null) {
