@@ -104,7 +104,7 @@
                                 <h5>Multimedia Kompjuterike</h5>
                               </div>
                               <ul class="submenu-content opensubmegamenu">
-                                <li><a href="{{ route('admin.lendet.multimedia.canvas_collision') }}">Canvas - Shmangja</a></li>
+                                <li><a href="{{ route('admin.lendet.multimedia.canvas_collision') }}">Canvas - Grumbullimi</a></li>
                                 <li><a href="{{ route('admin.lendet.multimedia.pixijs_hanoi') }}">PixiJS - Kullat Hanoi</a></li>
                                 <li><a href="{{ route('admin.lendet.multimedia.pixijs_tictactoe') }}">PixiJS - TicTacToe</a></li>
                               </ul>

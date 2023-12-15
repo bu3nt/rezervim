@@ -1,6 +1,6 @@
 <x-admin-layout>
     <x-slot:title>
-    Shmangja e përplasjeve
+    Grumbullimi e rrathëve
     </x-slot>
     <x-slot name="header">
         <div class="row">
@@ -15,7 +15,7 @@
                         </svg></a></li>
                     <li class="breadcrumb-item">Semestri 1</li>
                     <li class="breadcrumb-item">Multimedia Kompjuterike</li>
-                    <li class="breadcrumb-item active">Shmangja e përplasjeve</li>
+                    <li class="breadcrumb-item active">Grumbullimi e rrathëve</li>
                 </ol>
             </div>
         </div>        
@@ -24,7 +24,7 @@
         <div class="col-sm-12">   
             <div class="card">
                 <div class="card-header pb-0 card-no-border">
-                    <h5>Shmangja e përplasjeve</h5><span>Lojë e zhvilluar me Canvas</span>
+                    <h5>Grumbullimi e rrathëve</h5><span>Lojë e zhvilluar me Canvas</span>
                 </div>
                 <div class="card-body">
                     <x-response-message></x-response-message>
@@ -55,8 +55,9 @@
                         }      
                     </style>                    
                     <div class="centered-div">
-                        <h1>Shmangja e përplasjeve</h1>
-                        <p>Tento që duke levizur me tastet e drejtimit (Arrow Keys) ti shmangni sa më tepër kontaktet me topat e kuq.</p>    
+                        <h1>Grumbullimi e rrathëve</h1>
+                        <p>Tento që duke levizur me tastet e drejtimit (Arrow Keys) të grumbulloni sa më tepër rrathë të kuq.</p> 
+                        <h4>Rrathë të grumbulluar: <span id="numeruesi">0</span></h4>   
                         <canvas id="canvas" width="400" height="400"></canvas>
                         <button class="styled-button" onclick="resetGame()">Loje e Re</button>        
                     </div> 
@@ -68,7 +69,7 @@
     <script>
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
-
+    const numeruesi = document.getElementById('numeruesi');                        
     // Objekti i Lojës (katrori i kuq)
     const player = {
         x: 50,
@@ -80,6 +81,9 @@
 
     // Varku per ruajten e topave
     const circles = [];
+
+    // Numëruesi i grumbullimit
+    var numeruesiIGrumbullimit = 0;
 
     // Ndegjuesi i ngjarjeve per prekjen e butonave te drejtimit
     window.addEventListener('keydown', (e) => {
@@ -120,6 +124,8 @@
         if (distance < player.size / 2 + circle.radius) {
             // U detektua kontakti, largo topin e kuq
             circles.splice(index, 1);
+            numeruesiIGrumbullimit++;
+            numeruesi.innerHTML=numeruesiIGrumbullimit;
         }
         });
     }
@@ -131,7 +137,6 @@
 
         // Leviz lojtarin
         checkCollisions();
-
         // Vizato lojtarin
         ctx.fillStyle = player.color;
         ctx.fillRect(player.x - player.size / 2, player.y - player.size / 2, player.size, player.size);
@@ -158,6 +163,8 @@
         player.x = 50;
         player.y = 50;
         circles.length = 0; // Pastro vargun e topave
+        numeruesiIGrumbullimit = 0; // Rikthe numerimin ne zero
+        numeruesi.innerHTML=numeruesiIGrumbullimit;
     }
     // Fillo Ciklin e lojes
     gameLoop();
