@@ -80,10 +80,30 @@ class LendetController extends Controller
         }
         $entities = [];
         $tables = $tempConnection->select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE'");
+        // Get foreign key columns for the specified table
         $tempConnection->disconnect();
         $tableNames = array_column($tables, 'table_name');
         $tempConnection = DB::connection('temp_conn');
+        $foreignKeysArr = [];
         foreach($tableNames as $tableName){
+            $foreignKeys = $tempConnection->select("SELECT
+                kcu.column_name,
+                kcu.constraint_name,
+                ccu.table_name AS referenced_table_name
+            FROM information_schema.key_column_usage kcu
+            JOIN information_schema.table_constraints tc ON tc.constraint_name = kcu.constraint_name
+            JOIN information_schema.constraint_column_usage ccu ON ccu.constraint_name = tc.constraint_name
+            WHERE kcu.table_name = '{$tableName}' AND kcu.constraint_name LIKE '%_fkey'");
+            foreach($foreignKeys as $foreignKey){
+                $columns = $tempConnection->select("SELECT column_name
+                FROM information_schema.columns
+                WHERE table_name = '{$foreignKey->referenced_table_name}' AND column_name NOT IN (
+                    SELECT column_name
+                    FROM information_schema.key_column_usage
+                    WHERE table_name = '{$foreignKey->referenced_table_name}' AND constraint_name LIKE '%_pkey')");
+                $foreignKey->mapping_options = array_column($columns, 'column_name');
+                $foreignKeysArr[$tableName][] = $foreignKey;
+            }
             $tableData = $tempConnection->select("SELECT * FROM {$tableName}");
 
             // XML LOGIC
@@ -127,7 +147,7 @@ class LendetController extends Controller
         $tempConnection->disconnect();
         $masterConnection->statement("DROP DATABASE IF EXISTS $newDatabaseName");
         $masterConnection->disconnect();        
-        //dd($entities);
+        dd($foreignKeysArr);
 
         return view('admin.lendet.convert-sql-to-xml', compact('entities'));
     }
