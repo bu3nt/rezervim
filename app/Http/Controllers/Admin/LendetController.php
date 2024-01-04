@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,11 +27,11 @@ class LendetController extends Controller
     {
         return view('admin.lendet.pixijs-tictactoe');
     } 
-    public function pgsql_to_xml()
+    public function sql_to_xml()
     {  
-        return view('admin.lendet.pgsql-to-xml');
+        return view('admin.lendet.sql-to-xml');
     } 
-    public function convert_sql_to_xml(Request $request)
+    public function upload_sql(Request $request)
     {     
         //$sql = trim($request->input('sql'));
         $file = $request->file('sql');
@@ -42,16 +43,16 @@ class LendetController extends Controller
      
         $masterDatabaseConfig = config('database.connections.pgsql');
         $unique_name = 'temp_'.uniqid();
-        $newDatabaseName = $unique_name;
+        $databaseName = $unique_name;
         $masterConnection = DB::connection('pgsql');
-        $masterConnection->statement("CREATE DATABASE $newDatabaseName");
+        $masterConnection->statement("CREATE DATABASE $databaseName");
 
         config([
             'database.connections.temp_conn' => [
                 'driver' => $masterDatabaseConfig['driver'],
                 'host' => $masterDatabaseConfig['host'],
                 'port' => $masterDatabaseConfig['port'],
-                'database' => $newDatabaseName,
+                'database' => $databaseName,
                 'username' => $masterDatabaseConfig['username'],
                 'password' => $masterDatabaseConfig['password'],
             ],
@@ -63,7 +64,7 @@ class LendetController extends Controller
             SqlFormatter::format($sql);
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
-            $masterConnection->statement("DROP DATABASE IF EXISTS $newDatabaseName");            
+            $masterConnection->statement("DROP DATABASE IF EXISTS $databaseName");            
             return redirect()->back()->with('error', "SQL file has an error: $errorMessage");
         }        
 
@@ -78,18 +79,46 @@ class LendetController extends Controller
         foreach($statements as $statement){
             $tempConnection->statement($statement);
         }
+
+        $tempConnection->disconnect();
+        $masterConnection->disconnect();    
+
+        return redirect()->route('admin.lendet.databaze_avancuar.convert_sql_to_xml', compact('databaseName'));
+    }
+
+    public function convert_sql_to_xml(Request $request) {
+        $databaseName = $request->databaseName;
+        $masterDatabaseConfig = config('database.connections.pgsql');
+        config([
+            'database.connections.temp_conn' => [
+                'driver' => $masterDatabaseConfig['driver'],
+                'host' => $masterDatabaseConfig['host'],
+                'port' => $masterDatabaseConfig['port'],
+                'database' => $databaseName,
+                'username' => $masterDatabaseConfig['username'],
+                'password' => $masterDatabaseConfig['password'],
+            ],
+        ]); 
+
+        $tempConnection = DB::connection('temp_conn');        
+
         $entities = [];
         $tables = $tempConnection->select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE'");
         // Get foreign key columns for the specified table
         $tempConnection->disconnect();
         $tableNames = array_column($tables, 'table_name');
         $tempConnection = DB::connection('temp_conn');
-        $foreignKeysArr = [];
         foreach($tableNames as $tableName){
+            $tableColumns = $tempConnection->select("SELECT 
+                column_name, data_type
+            FROM information_schema.columns
+            WHERE table_name = '{$tableName}'");
+
             $foreignKeys = $tempConnection->select("SELECT
                 kcu.column_name,
                 kcu.constraint_name,
-                ccu.table_name AS referenced_table_name
+                ccu.table_name AS referenced_table_name,
+                ccu.column_name AS referenced_column_name
             FROM information_schema.key_column_usage kcu
             JOIN information_schema.table_constraints tc ON tc.constraint_name = kcu.constraint_name
             JOIN information_schema.constraint_column_usage ccu ON ccu.constraint_name = tc.constraint_name
@@ -97,58 +126,145 @@ class LendetController extends Controller
             foreach($foreignKeys as $foreignKey){
                 $columns = $tempConnection->select("SELECT column_name
                 FROM information_schema.columns
-                WHERE table_name = '{$foreignKey->referenced_table_name}' AND column_name NOT IN (
-                    SELECT column_name
-                    FROM information_schema.key_column_usage
-                    WHERE table_name = '{$foreignKey->referenced_table_name}' AND constraint_name LIKE '%_pkey')");
-                $foreignKey->mapping_options = array_column($columns, 'column_name');
-                $foreignKeysArr[$tableName][] = $foreignKey;
+                WHERE table_name = '{$foreignKey->referenced_table_name}'");
+                $foreignKey->referenced_table_columns = array_column($columns, 'column_name');
             }
-            $tableData = $tempConnection->select("SELECT * FROM {$tableName}");
 
-            // XML LOGIC
-            $xml = new SimpleXMLElement('<'.$tableName.'/>');
-            foreach ($tableData as $item) {
-                $itemXml = $xml->addChild('row');
-                $properties = get_object_vars($item); 
-                foreach ($properties as $propertyName => $propertyValue) {
-                    $itemXml->addChild($propertyName, $propertyValue);
-                }
-            }
-            $xmlString = $xml->asXML();
-            $filename = $unique_name . '_' . $tableName.'.xml';
-            $filePath = 'xml_files/' . $filename;
-            Storage::put($filePath, $xmlString);
-            $fileSizeBytes = Storage::disk('public')->size($filePath);
-            $fileSize = number_format($fileSizeBytes / 1024, 2);            
-            $lastModified = Storage::disk('public')->lastModified($filePath); 
-            $timeAgo = Carbon::createFromTimeStamp($lastModified)->diffForHumans();           
             $entity = new \stdClass();
             $entity->name = $tableName;
-            $entity->xml = [
-                'url' => $filePath,
-                'string' => $xmlString,
-                'fileName' => $filename,
-                'fileSize' => $fileSize,
-                'timeAgo' => $timeAgo
-            ];
-
-            // XSD LOGIC
-            $entity->xsd = [
-                'url' => $filePath,
-                'string' => $xmlString,
-                'fileName' => $filename,
-                'fileSize' => $fileSize,
-                'timeAgo' => $timeAgo
-            ];
+            $entity->columns = $tableColumns;
+            $entity->foreignKeys = $foreignKeys;
 
             $entities[] = $entity;
         }
-        $tempConnection->disconnect();
-        $masterConnection->statement("DROP DATABASE IF EXISTS $newDatabaseName");
-        $masterConnection->disconnect();        
-        dd($foreignKeysArr);
 
-        return view('admin.lendet.convert-sql-to-xml', compact('entities'));
+        $tempConnection->disconnect();
+
+        return view('admin.lendet.convert-sql-to-xml', compact('entities', 'databaseName'));
+    }
+
+    public function generate_xml(Request $request) {
+
+        $sql = $request->sql;
+        $databaseName = $request->databaseName;
+        $rrenja = strtolower($request->rrenja);
+        $masterDatabaseConfig = config('database.connections.pgsql');
+        config([
+            'database.connections.temp_conn' => [
+                'driver' => $masterDatabaseConfig['driver'],
+                'host' => $masterDatabaseConfig['host'],
+                'port' => $masterDatabaseConfig['port'],
+                'database' => $databaseName,
+                'username' => $masterDatabaseConfig['username'],
+                'password' => $masterDatabaseConfig['password'],
+            ],
+        ]); 
+
+        $tempConnection = DB::connection('temp_conn');
+        try {
+            $tableData = $tempConnection->select($sql);
+            if ($tableData) {
+                $unique_name = 'temp_'.uniqid();
+                $targetWord = "from";
+                $foundTable = $this->findWordAfter(strtolower($sql), $targetWord);
+                $row = $foundTable ? $foundTable : 'row';
+
+                // XSD LOGIC
+                $xsdFileName = $unique_name . '_' . $rrenja.'.xsd';
+                $xsdFilePath = 'xml_files/' . $xsdFileName;
+                $xsdString = '<?xml version="1.0" encoding="UTF-8"?>';
+                $xsdString .= '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">';
+                $xsdString .= '<xs:element name="'.$rrenja.'">';
+                $xsdString .= '<xs:complexType>';
+                $xsdString .= '<xs:sequence>';
+                $xsdString .= '<xs:element name="'.$row .'">';
+                $xsdString .= '<xs:complexType>';
+                $xsdString .= '<xs:sequence>'; 
+                $item = $tableData[0];               
+                $properties = get_object_vars($item); 
+                foreach ($properties as $propertyName => $propertyValue) {
+                    $xsdString .='<xs:element name="'.$propertyName.'"/>';
+                }
+                $xsdString .= '</xs:sequence>';
+                $xsdString .= '</xs:complexType>';
+                $xsdString .= '</xs:element>';                
+                $xsdString .= '</xs:sequence>';
+                $xsdString .= '</xs:complexType>';
+                $xsdString .= '</xs:element>';
+                $xsdString .= '</xs:schema>';
+                Storage::put($xsdFilePath, $xsdString);
+                $fileSizeBytes = Storage::disk('public')->size($xsdFilePath);
+                $xsdFileSize = number_format($fileSizeBytes / 1024, 2);            
+                $lastModified = Storage::disk('public')->lastModified($xsdFilePath); 
+                $xsdTimeAgo = Carbon::createFromTimeStamp($lastModified)->diffForHumans();   
+
+                
+                $xsd = [
+                    'url' => $xsdFilePath,
+                    'string' => $xsdString,
+                    'fileName' => $xsdFileName,
+                    'fileSize' => $xsdFileSize,
+                    'timeAgo' => $xsdTimeAgo
+                ];
+
+                // XML LOGIC
+                $xml = new SimpleXMLElement('<'.$rrenja.' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNameSpaceSchemaLocation="'.$xsdFileName.'" />');
+                foreach ($tableData as $item) {
+                    $itemXml = $xml->addChild($row);
+                    $properties = get_object_vars($item); 
+                    foreach ($properties as $propertyName => $propertyValue) {
+                        $itemXml->addChild($propertyName, $propertyValue);
+                    }
+                }
+                $xmlString = $xml->asXML();
+                $xmlFileName = $unique_name . '_' . $rrenja.'.xml';
+                $xmlFilePath = 'xml_files/' . $xmlFileName;
+                Storage::put($xmlFilePath, $xmlString);
+                $fileSizeBytes = Storage::disk('public')->size($xmlFilePath);
+                $xmlFileSize = number_format($fileSizeBytes / 1024, 2);            
+                $lastModified = Storage::disk('public')->lastModified($xmlFilePath); 
+                $xmlTimeAgo = Carbon::createFromTimeStamp($lastModified)->diffForHumans();           
+                $xml = [
+                    'url' => $xmlFilePath,
+                    'string' => $xmlString,
+                    'fileName' => $xmlFileName,
+                    'fileSize' => $xmlFileSize,
+                    'timeAgo' => $xmlTimeAgo
+                ];
+
+                $data = [
+                    'success' => true,
+                    'xml' => $xml,
+                    'xsd' => $xsd
+                ];
+            } else {
+                $data = [
+                    'success' => false,
+                    'message' => 'Pyetësori përmban gabime. Ju lutem rishikoni dhe provoni përsëri!'
+                ];            
+            } 
+        } catch (QueryException $exception) {
+            $data = [
+                'success' => false,
+                'error' => $exception->getMessage(),
+                'message' => 'Pyetësori përmban gabime. Ju lutem rishikoni dhe provoni përsëri!'
+            ];             
+        }
+
+        return response()->json($data);
+    }
+
+    private function findWordAfter($haystack, $targetWord) {
+        $pos = strpos($haystack, $targetWord);
+    
+        if ($pos !== false) {
+            $substring = substr($haystack, $pos + strlen($targetWord));
+                $matches = [];
+            preg_match('/\b(\w+)\b/', $substring, $matches);
+            if (isset($matches[1])) {
+                return $matches[1];
+            }
+        }
+        return null;
     }
 }

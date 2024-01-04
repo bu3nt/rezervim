@@ -116,7 +116,7 @@
                                 <h5>Databaze Avancuar</h5>
                               </div>
                               <ul class="submenu-content opensubmegamenu">
-                                <li><a href="{{ route('admin.lendet.databaze_avancuar.pgsql_to_xml') }}">Pgsql To Xml</a></li>
+                                <li><a href="{{ route('admin.lendet.databaze_avancuar.sql_to_xml') }}">SQL To XML</a></li>
                               </ul>
                             </div>
                           </div>

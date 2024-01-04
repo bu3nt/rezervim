@@ -36,8 +36,10 @@ Route::group(['middleware' => ['role:member|admin|super-admin']], function () {
             Route::get('/admin/lendet/multimedia/canvas_collision', [LendetController::class, 'canvas_collision'])->name('admin.lendet.multimedia.canvas_collision');
             Route::get('/admin/lendet/multimedia/pixijs_hanoi', [LendetController::class, 'pixijs_hanoi'])->name('admin.lendet.multimedia.pixijs_hanoi');
             Route::get('/admin/lendet/multimedia/pixijs_tictactoe', [LendetController::class, 'pixijs_tictactoe'])->name('admin.lendet.multimedia.pixijs_tictactoe');
-            Route::get('/admin/lendet/databaze-avancuar/pgsql-to-xml', [LendetController::class, 'pgsql_to_xml'])->name('admin.lendet.databaze_avancuar.pgsql_to_xml');
-            Route::post('/admin/lendet/databaze-avancuar/convert_sql_to_xml', [LendetController::class, 'convert_sql_to_xml'])->name('admin.lendet.databaze_avancuar.convert_sql_to_xml');
+            Route::get('/admin/lendet/databaze-avancuar/sql-to-xml', [LendetController::class, 'sql_to_xml'])->name('admin.lendet.databaze_avancuar.sql_to_xml');
+            Route::post('/admin/lendet/databaze-avancuar/upload_sql', [LendetController::class, 'upload_sql'])->name('admin.lendet.databaze_avancuar.upload_sql');
+            Route::get('/admin/lendet/databaze-avancuar/convert_sql_to_xml', [LendetController::class, 'convert_sql_to_xml'])->name('admin.lendet.databaze_avancuar.convert_sql_to_xml');
+            Route::post('/admin/lendet/databaze-avancuar/generate_xml', [LendetController::class, 'generate_xml'])->name('admin.lendet.databaze_avancuar.generate_xml');
         });
         Route::resource('admin/navigation', NavigationController::class, [
             'names' => [
