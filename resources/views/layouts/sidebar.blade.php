@@ -16,7 +16,7 @@
                     <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                 </li>
                 <li class="pin-title sidebar-main-title">
-                    <div> 
+                    <div>
                         <h6>{{ __('navigation.admin.pinned') }}</h6>
                     </div>
                 </li>
@@ -44,7 +44,7 @@
                       <li><a href="{{ route('admin.navigation') }}">{{ __('navigation.admin.navigation.index') }}</a></li>
                       <li><a href="{{ route('admin.navigation.create') }}">{{ __('navigation.admin.navigation.create') }}</a></li>
                     </ul>
-                </li>                
+                </li>
                 <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon">
                         <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-gallery') }}"></use>
@@ -139,7 +139,7 @@
                                 <li><a href="#">Test</a></li>
                               </ul>
                             </div>
-                          </div>                          
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -171,7 +171,7 @@
                                 <h5>Ekstraktimi i Web</h5>
                               </div>
                               <ul class="submenu-content opensubmegamenu">
-                                <li><a href="#">Test</a></li>
+                                <li><a href="{{ route('admin.lendet.ekstratimi_i_web.apriori') }}">Apriori</a></li>
                               </ul>
                             </div>
                           </div>
@@ -194,7 +194,7 @@
                                 <li><a href="#">Test</a></li>
                               </ul>
                             </div>
-                          </div> 
+                          </div>
                           <div class="col mega-box">
                             <div class="link-section">
                               <div class="submenu-title">
@@ -204,7 +204,7 @@
                                 <li><a href="#">Test</a></li>
                               </ul>
                             </div>
-                          </div>                                                     
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -269,12 +269,13 @@
                                 <li><a href="#">Test</a></li>
                               </ul>
                             </div>
-                          </div>                                                     
+                          </div>
                         </div>
                       </div>
                     </div>
                 </li>
-                @endrole                                                                                           
+                @endrole
+            </ul>
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
         </nav>

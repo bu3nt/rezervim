@@ -40,6 +40,7 @@ Route::group(['middleware' => ['role:member|admin|super-admin']], function () {
             Route::post('/admin/lendet/databaze-avancuar/upload_sql', [LendetController::class, 'upload_sql'])->name('admin.lendet.databaze_avancuar.upload_sql');
             Route::get('/admin/lendet/databaze-avancuar/convert_sql_to_xml', [LendetController::class, 'convert_sql_to_xml'])->name('admin.lendet.databaze_avancuar.convert_sql_to_xml');
             Route::post('/admin/lendet/databaze-avancuar/generate_xml', [LendetController::class, 'generate_xml'])->name('admin.lendet.databaze_avancuar.generate_xml');
+            Route::get('/admin/lendet/ekstratimi-i-web/apriori', [LendetController::class, 'apriori'])->name('admin.lendet.ekstratimi_i_web.apriori');
         });
         Route::resource('admin/navigation', NavigationController::class, [
             'names' => [
@@ -52,7 +53,7 @@ Route::group(['middleware' => ['role:member|admin|super-admin']], function () {
                 'destroy' => 'admin.navigation.destroy',
             ],
         ]);
-        Route::post('admin/navigation/updateOrder', [NavigationController::class, 'updateOrder'])->name('admin.navigation.updateOrder');      
+        Route::post('admin/navigation/updateOrder', [NavigationController::class, 'updateOrder'])->name('admin.navigation.updateOrder');
         Route::resource('admin/testimonial', TestimonialController::class, [
             'names' => [
                 'index' => 'admin.testimonial',
@@ -87,7 +88,7 @@ Route::group(['middleware' => ['role:member|admin|super-admin']], function () {
                 'destroy' => 'admin.plan.destroy',
             ],
         ]);
-        Route::post('admin/plan/updateOrder', [PlanController::class, 'updateOrder'])->name('admin.plan.updateOrder');                  
+        Route::post('admin/plan/updateOrder', [PlanController::class, 'updateOrder'])->name('admin.plan.updateOrder');
     });
 });
 

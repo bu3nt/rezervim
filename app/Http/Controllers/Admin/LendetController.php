@@ -2,45 +2,44 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Phpml\Association\Apriori;
 use SqlFormatter;
 use Carbon\Carbon;
 use SimpleXMLElement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class LendetController extends Controller
 {
     public function canvas_collision()
     {
         return view('admin.lendet.canvas-collision');
-    }      
+    }
     public function pixijs_hanoi()
     {
         return view('admin.lendet.pixijs-hanoi');
-    }  
+    }
     public function pixijs_tictactoe()
     {
         return view('admin.lendet.pixijs-tictactoe');
-    } 
+    }
     public function sql_to_xml()
-    {  
+    {
         return view('admin.lendet.sql-to-xml');
-    } 
+    }
     public function upload_sql(Request $request)
-    {     
+    {
         //$sql = trim($request->input('sql'));
         $file = $request->file('sql');
-        $filePath = $file->store('sql_files');      
+        $filePath = $file->store('sql_files');
         $sql = Storage::get($filePath);
         if (Storage::disk('public')->exists($filePath)) {
             Storage::disk('public')->delete($filePath);
-        }        
-     
+        }
+
         $masterDatabaseConfig = config('database.connections.pgsql');
         $unique_name = 'temp_'.uniqid();
         $databaseName = $unique_name;
@@ -56,7 +55,7 @@ class LendetController extends Controller
                 'username' => $masterDatabaseConfig['username'],
                 'password' => $masterDatabaseConfig['password'],
             ],
-        ]); 
+        ]);
 
         $tempConnection = DB::connection('temp_conn');
 
@@ -64,9 +63,9 @@ class LendetController extends Controller
             SqlFormatter::format($sql);
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
-            $masterConnection->statement("DROP DATABASE IF EXISTS $databaseName");            
+            $masterConnection->statement("DROP DATABASE IF EXISTS $databaseName");
             return redirect()->back()->with('error', "SQL file has an error: $errorMessage");
-        }        
+        }
 
         $sql = str_replace(["\r", "\n"], '', $sql);
         $statements = explode(';', $sql);
@@ -81,7 +80,7 @@ class LendetController extends Controller
         }
 
         $tempConnection->disconnect();
-        $masterConnection->disconnect();    
+        $masterConnection->disconnect();
 
         return redirect()->route('admin.lendet.databaze_avancuar.convert_sql_to_xml', compact('databaseName'));
     }
@@ -98,9 +97,9 @@ class LendetController extends Controller
                 'username' => $masterDatabaseConfig['username'],
                 'password' => $masterDatabaseConfig['password'],
             ],
-        ]); 
+        ]);
 
-        $tempConnection = DB::connection('temp_conn');        
+        $tempConnection = DB::connection('temp_conn');
 
         $entities = [];
         $tables = $tempConnection->select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE'");
@@ -109,7 +108,7 @@ class LendetController extends Controller
         $tableNames = array_column($tables, 'table_name');
         $tempConnection = DB::connection('temp_conn');
         foreach($tableNames as $tableName){
-            $tableColumns = $tempConnection->select("SELECT 
+            $tableColumns = $tempConnection->select("SELECT
                 column_name, data_type
             FROM information_schema.columns
             WHERE table_name = '{$tableName}'");
@@ -158,7 +157,7 @@ class LendetController extends Controller
                 'username' => $masterDatabaseConfig['username'],
                 'password' => $masterDatabaseConfig['password'],
             ],
-        ]); 
+        ]);
 
         $tempConnection = DB::connection('temp_conn');
         try {
@@ -179,26 +178,26 @@ class LendetController extends Controller
                 $xsdString .= '<xs:sequence>';
                 $xsdString .= '<xs:element name="'.$row .'">';
                 $xsdString .= '<xs:complexType>';
-                $xsdString .= '<xs:sequence>'; 
-                $item = $tableData[0];               
-                $properties = get_object_vars($item); 
+                $xsdString .= '<xs:sequence>';
+                $item = $tableData[0];
+                $properties = get_object_vars($item);
                 foreach ($properties as $propertyName => $propertyValue) {
                     $xsdString .='<xs:element name="'.$propertyName.'"/>';
                 }
                 $xsdString .= '</xs:sequence>';
                 $xsdString .= '</xs:complexType>';
-                $xsdString .= '</xs:element>';                
+                $xsdString .= '</xs:element>';
                 $xsdString .= '</xs:sequence>';
                 $xsdString .= '</xs:complexType>';
                 $xsdString .= '</xs:element>';
                 $xsdString .= '</xs:schema>';
                 Storage::put($xsdFilePath, $xsdString);
                 $fileSizeBytes = Storage::disk('public')->size($xsdFilePath);
-                $xsdFileSize = number_format($fileSizeBytes / 1024, 2);            
-                $lastModified = Storage::disk('public')->lastModified($xsdFilePath); 
-                $xsdTimeAgo = Carbon::createFromTimeStamp($lastModified)->diffForHumans();   
+                $xsdFileSize = number_format($fileSizeBytes / 1024, 2);
+                $lastModified = Storage::disk('public')->lastModified($xsdFilePath);
+                $xsdTimeAgo = Carbon::createFromTimeStamp($lastModified)->diffForHumans();
 
-                
+
                 $xsd = [
                     'url' => $xsdFilePath,
                     'string' => $xsdString,
@@ -211,7 +210,7 @@ class LendetController extends Controller
                 $xml = new SimpleXMLElement('<'.$rrenja.' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNameSpaceSchemaLocation="'.$xsdFileName.'" />');
                 foreach ($tableData as $item) {
                     $itemXml = $xml->addChild($row);
-                    $properties = get_object_vars($item); 
+                    $properties = get_object_vars($item);
                     foreach ($properties as $propertyName => $propertyValue) {
                         $itemXml->addChild($propertyName, $propertyValue);
                     }
@@ -221,9 +220,9 @@ class LendetController extends Controller
                 $xmlFilePath = 'xml_files/' . $xmlFileName;
                 Storage::put($xmlFilePath, $xmlString);
                 $fileSizeBytes = Storage::disk('public')->size($xmlFilePath);
-                $xmlFileSize = number_format($fileSizeBytes / 1024, 2);            
-                $lastModified = Storage::disk('public')->lastModified($xmlFilePath); 
-                $xmlTimeAgo = Carbon::createFromTimeStamp($lastModified)->diffForHumans();           
+                $xmlFileSize = number_format($fileSizeBytes / 1024, 2);
+                $lastModified = Storage::disk('public')->lastModified($xmlFilePath);
+                $xmlTimeAgo = Carbon::createFromTimeStamp($lastModified)->diffForHumans();
                 $xml = [
                     'url' => $xmlFilePath,
                     'string' => $xmlString,
@@ -241,22 +240,44 @@ class LendetController extends Controller
                 $data = [
                     'success' => false,
                     'message' => 'Pyetësori përmban gabime. Ju lutem rishikoni dhe provoni përsëri!'
-                ];            
-            } 
+                ];
+            }
         } catch (QueryException $exception) {
             $data = [
                 'success' => false,
                 'error' => $exception->getMessage(),
                 'message' => 'Pyetësori përmban gabime. Ju lutem rishikoni dhe provoni përsëri!'
-            ];             
+            ];
         }
 
         return response()->json($data);
     }
 
+    public function apriori() {
+
+        // TRAIN
+        $samples = [['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta'], ['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta']];
+        $labels  = [];
+
+        $associator = new Apriori($support = 0.5, $confidence = 0.5);
+        $associator->train($samples, $labels);
+
+        // PREDICT
+        $associator->predict(['alpha','theta']);
+        $associator->predict([['alpha','epsilon'],['beta','theta']]);
+
+        // ASSOCIATING
+        $rules = $associator->getRules();
+
+        // FREQUENT ITEMS SETS
+        $frequent_items_sets = $associator->apriori();
+
+        return view('admin.lendet.apriori', compact('rules', 'frequent_items_sets'));
+    }
+
     private function findWordAfter($haystack, $targetWord) {
         $pos = strpos($haystack, $targetWord);
-    
+
         if ($pos !== false) {
             $substring = substr($haystack, $pos + strlen($targetWord));
                 $matches = [];
