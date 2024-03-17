@@ -253,9 +253,17 @@ class LendetController extends Controller
         return response()->json($data);
     }
 
-    public function apriori() {
 
-        // TRAIN
+    function measureMemoryUsage($variable, $description = '') {
+        $memoryBefore = memory_get_usage(true);
+        $unused = $variable; // Ensure the variable is used
+        $memoryAfter = memory_get_usage(true);
+        $memoryUsed = $memoryAfter - $memoryBefore;
+
+        echo $description . " memory usage: " . $memoryUsed . " bytes\n";
+    }
+
+    public function apriori() {
         $samples = [['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta'], ['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta']];
         $labels  = [];
 
