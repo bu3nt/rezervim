@@ -279,7 +279,7 @@ class LendetController extends Controller
 
         // FREQUENT ITEMS SETS
         $frequent_items_sets = $associator->apriori();
-
+        dd($frequent_items_sets);
         return view('admin.lendet.apriori', compact('rules', 'frequent_items_sets'));
     }
 
@@ -295,5 +295,29 @@ class LendetController extends Controller
             }
         }
         return null;
+    }
+
+    public function lab_2() : void
+    {
+        $starti = microtime(true);
+        $numri = 35;
+        echo "<p>Fibonacci numrat deri tek " . $numri . ": ";
+        for ($i = 1; $i <= $numri; $i++) {
+            echo $this->fibonacci($i) . " ";
+        }
+        echo "</p>";
+        $fundi = microtime(true);
+        $kohaEGjenerimitMicro = $fundi - $starti;
+        $kohaEGjenerimitSekonda = $kohaEGjenerimitMicro / 1000000;
+        echo "<p>Koha e gjenerimit: " . number_format($kohaEGjenerimitSekonda, 13) . " sekonda</p>";
+    }
+
+    private function fibonacci(int $n)
+    {
+        if ($n < 3) {
+            return 1;
+        } else {
+            return ($this->fibonacci($n - 2) + $this->fibonacci($n - 1));
+        }
     }
 }

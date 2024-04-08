@@ -161,7 +161,7 @@
                                 <h5>Algoritmet e Zgjedhura</h5>
                               </div>
                               <ul class="submenu-content opensubmegamenu">
-                                <li><a href="#">Test</a></li>
+                                  <li><a href="{{ route('admin.lendet.algoritmet_e_zgjedhura.lab_2') }}">Lab 2</a></li>
                               </ul>
                             </div>
                           </div>

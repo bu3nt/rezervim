@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('apriori_sample_items', function (Blueprint $table) {
             $table->id();
-            $table->string('sample')->nullable(false);
+            $table->string('name')->nullable(false);
+            $table->unsignedBigInteger('apriori_samples_id');
             $table->timestamps();
+
+            $table->foreign('apriori_samples_id')
+                ->references('id')
+                ->on('apriori_samples')
+                ->onDelete('cascade');
         });
     }
 
