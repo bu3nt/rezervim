@@ -36,8 +36,8 @@ class AprioriController extends Controller
         $associator->train($samples, $labels);
 
         // PREDICT
-        $associator->predict(['alpha','theta']);
-        $associator->predict([['alpha','epsilon'],['beta','theta']]);
+        //$associator->predict(['Iphone','Nokia']);
+//      //$associator->predict([['alpha','epsilon'],['beta','theta']]);
 
         // ASSOCIATING
         $rules = $associator->getRules();
