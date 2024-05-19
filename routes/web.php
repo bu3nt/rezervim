@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AprioriController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProfileController;
@@ -42,6 +43,7 @@ Route::group(['middleware' => ['role:member|admin|super-admin']], function () {
             Route::post('/admin/lendet/databaze-avancuar/generate_xml', [LendetController::class, 'generate_xml'])->name('admin.lendet.databaze_avancuar.generate_xml');
             Route::get('/admin/lendet/ekstratimi-i-web/apriori', [LendetController::class, 'apriori'])->name('admin.lendet.ekstratimi_i_web.apriori');
             Route::get('/admin/lendet/algoritmet-e-zgjedhura/lab-2', [LendetController::class, 'lab_2'])->name('admin.lendet.algoritmet_e_zgjedhura.lab_2');
+            Route::post('/admin/lendet/ekstratimi-i-web/apriori/generate-frequent-item-sets', [AprioriController::class, 'index'])->name('admin.lendet.ekstratimi_i_web.generate_frequent_item_sets');
         });
         Route::resource('admin/navigation', NavigationController::class, [
             'names' => [

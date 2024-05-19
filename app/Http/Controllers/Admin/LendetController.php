@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Order;
 use Phpml\Association\Apriori;
 use SqlFormatter;
 use Carbon\Carbon;
@@ -264,23 +265,7 @@ class LendetController extends Controller
     }
 
     public function apriori() {
-        $samples = [['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta'], ['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta']];
-        $labels  = [];
-
-        $associator = new Apriori($support = 0.5, $confidence = 0.5);
-        $associator->train($samples, $labels);
-
-        // PREDICT
-        $associator->predict(['alpha','theta']);
-        $associator->predict([['alpha','epsilon'],['beta','theta']]);
-
-        // ASSOCIATING
-        $rules = $associator->getRules();
-
-        // FREQUENT ITEMS SETS
-        $frequent_items_sets = $associator->apriori();
-        dd($frequent_items_sets);
-        return view('admin.lendet.apriori', compact('rules', 'frequent_items_sets'));
+        return view('admin.lendet.apriori');
     }
 
     private function findWordAfter($haystack, $targetWord) {
