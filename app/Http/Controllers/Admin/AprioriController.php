@@ -29,7 +29,6 @@ class AprioriController extends Controller
             }
         }
 
-        //$samples = [['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta'], ['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta'], ['alpha', 'beta', 'theta', 'gama']];
         $labels  = [];
 
         $associator = new Apriori($support, $confidence);
@@ -47,7 +46,7 @@ class AprioriController extends Controller
 
         $data = [
             'success' => true,
-            'message' => 'Pyetësori përmban gabime. Ju lutem rishikoni dhe provoni përsëri!',
+            'message' => 'Frequent Item Sets',
             'frequent_items_sets' => $frequent_items_sets
         ];
 

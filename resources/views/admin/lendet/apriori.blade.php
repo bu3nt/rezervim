@@ -47,8 +47,8 @@
                             <div class="col-12 mt-2">
                                 <button class="btn btn-primary" type="submit" id="generate">{{ __('apriori.create.generate') }}</button>
                             </div>
-                            <div id="generated-results" class="mt-4"></div>
                         </form>
+                        <div id="generated-results" class="mt-4"></div>
                     </div>
                 </div>
             </div>
@@ -94,6 +94,57 @@
                             success: function (response) {
                                 if(response.success) {
                                     $('#generated-results').html(``);
+                                    var fis_res = `<div class="horizontal-list-wrapper dark-list">`;
+                                    var fis = Object.values(response.frequent_items_sets);
+                                    var c_fis = fis.length;
+                                    var item_sets = [];
+                                    if(c_fis > 0) {
+
+                                        $(fis).each(function (i, set) {
+                                            var c_set = set.length;
+                                            if(c_set > 0) {
+                                                $(set).each(function (j, item_set) {
+                                                    var c_item_set = item_set.length;
+                                                    if (c_item_set > 1) {
+                                                        item_sets.push(item_set)
+                                                    } else {
+                                                        fis_res += `<ul class="fw-bold list-group list-group-horizontal-sm pb-2">`;
+
+                                                        fis_res += `<li class="list-group-item border-left-primary">` + item_set[0] + `</li>`;
+
+                                                        fis_res += `</ul>`;
+
+                                                    }
+                                                });
+                                            }
+                                        });
+
+                                    }
+
+                                    var c_is = item_sets.length;
+                                    if(c_is > 0) {
+                                        var set_color = 'secondary';
+                                        $(item_sets).each(function (i, i_set) {
+                                            fis_res += `<ul class="fw-bold list-group list-group-horizontal-sm pb-2">`;
+                                            var c_i_set = i_set.length;
+                                            if(c_i_set > 2) {
+                                                set_color = 'warning';
+                                            }
+                                            $(i_set).each(function (j, i_set_set) {
+                                                var primary = '';
+                                                if (j === 0) {
+                                                    primary = ' border-left-' + set_color;
+                                                }
+
+                                                fis_res += `<li class="list-group-item`+primary+`">` + i_set_set + `</li>`;
+                                            });
+
+                                            fis_res += `</ul>`;
+                                        });
+                                    }
+
+                                    fis_res += `</div>`;
+                                    $('#generated-results').html(fis_res);
                                 } else {
                                     $('#generated-results').html(`
                                         <div class="alert alert-danger alert-dismissible" role="alert">
