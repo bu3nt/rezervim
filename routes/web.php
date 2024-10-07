@@ -44,6 +44,8 @@ Route::group(['middleware' => ['role:member|admin|super-admin']], function () {
             Route::get('/admin/lendet/ekstratimi-i-web/apriori', [LendetController::class, 'apriori'])->name('admin.lendet.ekstratimi_i_web.apriori');
             Route::get('/admin/lendet/algoritmet-e-zgjedhura/lab-2', [LendetController::class, 'lab_2'])->name('admin.lendet.algoritmet_e_zgjedhura.lab_2');
             Route::post('/admin/lendet/ekstratimi-i-web/apriori/generate-frequent-item-sets', [AprioriController::class, 'index'])->name('admin.lendet.ekstratimi_i_web.generate_frequent_item_sets');
+            Route::get('/admin/lendet/kompjutimi-jokonvencional/apriori', [LendetController::class, 'apriori'])->name('admin.lendet.kompjutimi-jokonvencional.apriori');
+            Route::post('/admin/lendet/kompjutimi-jokonvencional/apriori/generate-frequent-item-sets', [AprioriController::class, 'index'])->name('admin.lendet.kompjutimi-jokonvencional.generate_frequent_item_sets');
         });
         Route::resource('admin/navigation', NavigationController::class, [
             'names' => [

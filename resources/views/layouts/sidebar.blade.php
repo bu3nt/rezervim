@@ -136,7 +136,7 @@
                                 <h5>Komp. Jo-Konvencional</h5>
                               </div>
                               <ul class="submenu-content opensubmegamenu">
-                                <li><a href="#">Test</a></li>
+                                  <li><a href="{{ route('admin.lendet.kompjutimi-jokonvencional.apriori') }}">Apriori</a></li>
                               </ul>
                             </div>
                           </div>
